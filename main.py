@@ -1,5 +1,8 @@
-from mysql.connector import Date
+
 import os
+
+from pymysql import Date
+
 import db
 from tabulate import tabulate
 
