@@ -1,4 +1,4 @@
-
+import datetime
 import os
 
 from pymysql import Date
@@ -33,20 +33,19 @@ def add_item(table):
     # Insert data into database
     name = input('Name: ')
     amount = int(input('Amount: '))
-    date = input('Date: (Format: YYYY-MM-DD)')
+    date_input = input('Date: (Format: YYYY-MM-DD)')
+    date = datetime.date.today() if date_input == "today" or date_input == "" else Date(int(date_input.split('-')[0]), int(date_input.split('-')[1]), int(date_input.split('-')[2]))
     if table == "income":
         gi = db.GeneralIncome(name=name, amount=amount,
-                              date=Date(int(date.split('-')[0]), int(date.split('-')[1]), int(date.split('-')[2])))
+                              date=date)
         gi.save()
     elif table == 'recurring':
         r = db.RecurringExpenditure(name=name, amount=amount,
-                                    date=Date(int(date.split('-')[0]), int(date.split('-')[1]),
-                                              int(date.split('-')[2])))
+                                    date=date)
         r.save()
     elif table == 'nonrecurring':
         nr = db.NonRecurringExpenditure(name=name, amount=amount,
-                                        date=Date(int(date.split('-')[0]), int(date.split('-')[1]),
-                                                  int(date.split('-')[2])))
+                                        date=date)
         nr.save()
 
     print("Added Successfully...")
@@ -135,5 +134,5 @@ def run():
                 print("Invalid option")
 
 
-if __name__ == "main":
+if __name__ == "__main__":
     run()
